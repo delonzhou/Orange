@@ -1,0 +1,71 @@
+
+//
+// This is a demo entity that contains constraints.
+//
+entity song {
+   Entityid 	oid 		primarykey;
+   String 	title[35] 	required;
+   String 	artist[35] 	required;
+   Int 		length 		;
+
+   // Demo constraint types. Note support for comma separated ID's
+   // check constraint content is a String literal.
+   // 
+   constraint primary key (oid);
+   constraint check ( "length > 50 && artist != 'foo fighters' " );
+   constraint unique (title , artist);
+}
+
+//
+// This is a demo of entity 'decorator object' which is key-value pair
+// user-defined metadata. We just parse and collect the data. Note the
+// value must be a string literal. 'entity' in this context is a keyword
+// that indicates an "entity-level" property, all others are attribute-level
+// properties.
+// 
+decorator song {
+  entity => [engine="InnoDB", charset="utf8"];  // entity-level properties
+  title => [colWidth="200"];
+  length => [zeroAsBlank="true" , colWidth="300"];
+}
+
+
+// This is a sample relationship declaration.
+relationship employment {
+  Set<person> hasEmployees ; 
+  Ref<company> worksFor unique; 
+}
+
+ entity good_class {
+   Boolean notFubar;
+   Autoinc pkey;
+   Entityid oid primarykey;
+   Ref<person> has_family;
+   Ref<person> spouse unique;
+   Decimal ratio[8,2] required;
+   Money new_worth[10,2];
+   Blob image[2000] required;
+   Bit bitmasker[8];
+   Timestamp createdOn;
+   String good[25];
+   String ok[128] deprecated required; 
+   Boolean isOkay;
+   Int foo;	
+   Int ufoo required unique;
+   Int oink unsigned;
+   Int boink required deprecated;
+   Tinyint foo2;
+   Long bar unsigned required;
+   Char fool[34] deprecated;
+}
+
+// A many2many example
+relationship gamblers {
+  Set<casino> gamplesAt required; 
+  Set<person> hasGamplers; 
+}
+
+
+ entity goof { Int food; }
+
+  entity fubar_good { }
