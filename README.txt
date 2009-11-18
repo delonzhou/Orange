@@ -14,7 +14,7 @@ To Build
    shell> mvn eclipse:eclipse
 
 4. To install into local maven repository:
-  shell> mvn install:install-file -Dfile=/Users/brianmcginnis/personal/orange/target/orange-1.0-SNAPSHOT.jar -DgroupId=com.bitgenre -DartifactId=orange -Dversion=1.0-SNAPSHOT -Dpackaging=jar
+  shell> mvn install:install-file -Dfile=/Users/brianmcginnis/personal/OrangeProject/Orange/target/orange-1.0.1.jar -DgroupId=com.bitgenre -DartifactId=orange -Dversion=1.0.1 -Dpackaging=jar
 
 
 
