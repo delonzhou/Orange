@@ -64,6 +64,5 @@ relationship LineItemProduct {
 // Decorator relationship with Persistence info.
 decorator LineItemProduct with Persistence {
   relationship => [mappingTable="fubar_map_tbl"];
-  forLineItem => [load="eager", cascadeDelete="true", cascadeUpdate="true"];
   purchasedProduct => [load="lazy"];
 }

@@ -19,6 +19,8 @@ tokens {
   IMPORT;
   ATTRIBUTES;
   PROPERTIES;
+  CASCADE;
+  FETCH;
   INT_PROPERTIES;
   RELATIONSHIP;
   CONSTRAINTS;
@@ -130,9 +132,9 @@ simpleAttrDecl
 	;	
 
 entityRefDecl
-	: (TYPE_ENTITY_REF '<' refTo=ID '>' attrName=ID attrOptions) -> ^(TYPE_ENTITY_REF $attrName $refTo attrOptions)
-	| (TYPE_ENTITY_SET '<' refTo=ID '>' attrName=ID attrOptions) -> ^(TYPE_ENTITY_SET $attrName $refTo attrOptions)
-	| (TYPE_ENTITY_BAG '<' refTo=ID '>' attrName=ID attrOptions) -> ^(TYPE_ENTITY_BAG $attrName $refTo attrOptions)
+	: (TYPE_ENTITY_REF '<' refTo=ID '>' attrName=ID attrOptions fetchOptions cascadeOptions) -> ^(TYPE_ENTITY_REF $attrName $refTo attrOptions fetchOptions cascadeOptions)
+	| (TYPE_ENTITY_SET '<' refTo=ID '>' attrName=ID attrOptions fetchOptions cascadeOptions) -> ^(TYPE_ENTITY_SET $attrName $refTo attrOptions fetchOptions cascadeOptions)
+	| (TYPE_ENTITY_BAG '<' refTo=ID '>' attrName=ID attrOptions fetchOptions cascadeOptions) -> ^(TYPE_ENTITY_BAG $attrName $refTo attrOptions fetchOptions cascadeOptions)
 	;
 	
 enumRefDecl
@@ -173,8 +175,17 @@ decimalSize
 	;
 			
 attrOptions
-	: ('required' | 'deprecated' | 'unique' | 'primarykey')*
-		-> ^(PROPERTIES 'required'?'deprecated'? 'unique'? 'primarykey'? )
+	: ('required' | 'deprecated' | 'unique' | 'primarykey' )*
+		-> ^(PROPERTIES 'required'? 'deprecated'? 'unique'? 'primarykey'? )
+	;
+
+
+fetchOptions 
+	: ( 'eager' | 'lazy')?					-> ^(FETCH 'eager'? 'lazy'?)
+	;
+		
+cascadeOptions
+	: ('cascadeSave' | 'cascadeDelete' | 'cascadeAll' )? 	-> ^(CASCADE 'cascadeSave'? 'cascadeDelete'? 'cascadeAll'?)
 	;
 	
 // com.bitgenre.orange.domain.Entity-level Constraint declarations

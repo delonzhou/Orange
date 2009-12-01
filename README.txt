@@ -8,16 +8,20 @@ To Build
 2. To run Orange compiler upon sample data:
    shell> mvn clean
    shell> mvn package
-   shell> java -cp target/orange-1.0-SNAPSHOT.jar:lib/antlr-3.1.1.jar OrangeCompiler -d -c ./test-data/SampleData2.txt
+   shell> java -cp target/orange-1.0.2-SNAPSHOT.jar:lib/antlr-3.1.1.jar OrangeCompiler -d -c ./test-data/SampleData2.txt
 
 3. To get IDE working:
    shell> mvn eclipse:eclipse
 
 4. To install into local maven repository:
-  shell> mvn install:install-file -Dfile=/Users/brianmcginnis/personal/OrangeProject/Orange/target/orange-1.0.1.jar -DgroupId=com.bitgenre -DartifactId=orange -Dversion=1.0.1 -Dpackaging=jar
+  shell> mvn install:install-file -Dfile=/Users/brianmcginnis/personal/OrangeProject/Orange/target/orange-1.0.2-SNAPSHOT.jar -DgroupId=com.bitgenre -DartifactId=orange -Dversion=1.0.2-SNAPSHOT -Dpackaging=jar
 
 
-
+** The Mac eclise "Bad Class Version" problem:
+ This is caused by compiler settings in build. Change compiler settings to project-specific, select
+ 1.5 settings if Mac.
+  
+  
 To use it
 --------------
 
@@ -72,3 +76,19 @@ To use it
         }
    
 
+==============
+Syntax Notes
+==============
+Properties for attributes and relationships are always
+"false" by default. (e.g. if 'required' not specified, it is presumed false).
+
+Relationship defaults:
+----------------------
+  Cascading=CascadeNone
+  Fetch=Lazy
+  // reln properties
+  Required=False 
+  Unique=false
+  PrimaryKey=false
+  
+  
