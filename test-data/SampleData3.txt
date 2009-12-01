@@ -1,0 +1,63 @@
+namespace com.fubar;
+
+import com.gummy.Customer;
+import com.gummy.Store;
+
+enum ProductType {
+  Food,
+  Sundry,
+  Computer
+}
+
+entity LineItem {
+   Long lineItemId primarykey;
+   Enum<ProductType> type required;
+   Int lineNumber required;
+   String description[80];
+   Int quantity required;  // TODO: default = 1;
+   Money unitPrice[10,2] required;
+   constraint unique (lineNumber, lineItemId);
+   constraint check ("unitPrice > 0.01");
+}
+
+entity Product {
+  Long productId 	unique;
+  String productName[35]  	required unique;
+  Money price[10,2];  // Here 10 is precision and 2 is scale.
+}
+
+// Decorator for Product entity. Decorator type is 'Persistence'.
+decorator Product with Persistence {
+  entity => [table="products"];
+  productName => [name="product_name"];
+  price => [name="prod_price", type="Money"];
+}
+   
+// Decorator for Product entity. Decoratory type is 'View'
+decorator Product with View {
+  entity => [style="CRUD-1", deleteable="false"];
+  productName => [color="black", font="bold"];
+  price => [blankAsZero="true"];
+}
+
+
+entity PurchaseOrder {
+  EntityId orderid primarykey;
+  Date orderDate required ;
+  Money total[10,2];
+}
+
+
+
+// A one-to-many relationship between PurchaseOrder and LineItem.
+relationship PurchaseItems {
+  Ref<PurchaseOrder> purchaseOrder lazy cascadeAll;
+  Set<LineItem> lineItems eager;
+}
+
+// A one-to-one relationship.
+relationship LineItemProduct {
+  Ref<LineItem> forLineItem required cascadeDelete;
+  Ref<Product> purchasedProduct unique eager cascadeSave;
+}
+
